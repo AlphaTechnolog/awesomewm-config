@@ -1,0 +1,3 @@
+[submodule "extern/color"]
+	path = extern/color
+	url = https://github.com/andOrlando/color.git
