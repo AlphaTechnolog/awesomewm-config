@@ -71,6 +71,7 @@ end
 
 function _core:make_window()
   self._private.s.core_window = awful.popup {
+    type = "popup_menu",
     screen = self._private.s,
     visible = false,
     ontop = true,

@@ -64,7 +64,7 @@ services = {
   github = {
     enabled = true,
     username = "AlphaTechnolog",
-    api_key = general:quick_read(os.getenv "HOME" .. "/.kogarashi-shell/github-api-key"),
+    api_key = general:quick_read(os.getenv "HOME" .. "/.awesomewm-user-config/github-api-key"),
   },
 }
 
@@ -103,5 +103,6 @@ wallpaper_config = {
 debugging = {
   popups = {
     core = false,
+    notifications = false,
   },
 }

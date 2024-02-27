@@ -110,14 +110,28 @@ awful.keyboard.append_global_keybindings {
 
   awful.key({ modkey }, "d", function ()
     local s = awful.screen.focused()
-    if s.core_window then
-      s.core_window:toggle()
-    else
+
+    if not s.core_window then
       error("cannot get the dashboard instance?")
     end
+
+    s.core_window:toggle()
   end, {
     description = "open the dashboard",
     group = "launcher"
+  }),
+
+  awful.key({ modkey }, "n", function ()
+    local s = awful.screen.focused()
+
+    if not s.notifications_panel then
+      error("cannot get the notifications panel instance")
+    end
+
+    s.notifications_panel:toggle()
+  end, {
+    description = "open the notifications panel",
+    group = "launcher",
   })
 }
 

@@ -39,6 +39,7 @@ end
 local function notifications(self)
   local url = "https://api.github.com/notifications"
 
+  ---@diagnostic disable-next-line: redefined-local
   Net(url):github_fetch(self._private.config.api_key, function(notifications)
     if notifications == nil then
       self:emit_signal("notifications::error", "cannot decode notifications")
@@ -59,6 +60,7 @@ local function received_events(self)
   -- fetching users received events.
   local url = ("https://api.github.com/users/%s/received_events"):format(self._private.config.username)
 
+  ---@diagnostic disable-next-line: redefined-local
   Net(url):github_fetch(self._private.config.api_key, function(received_events)
     if received_events == nil then
       self:emit_signal("received_events::error", "cannot decode received_events")

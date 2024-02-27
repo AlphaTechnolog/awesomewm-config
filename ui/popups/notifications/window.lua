@@ -1,153 +1,127 @@
-local wibox = require "wibox"
-local awful = require "awful"
-local gobject = require "gears.object"
-local gtable = require "gears.table"
-local gtimer = require "gears.timer"
-local general = require "lib.general"
-local animation = require "lib.animation"
-local beautiful = require "beautiful"
+local awful = require("awful")
+local wibox = require("wibox")
+local gtimer = require("gears.timer")
+local animation = require("lib.animation")
+local beautiful = require("beautiful")
 local dpi = beautiful.xresources.apply_dpi
+local oop = require("lib.oop")
 
-local capi = {
-  debugging = debugging,
-  side_popups_struts = side_popups_struts,
-}
+local Content = require("ui.popups.notifications.content")
 
-local notifications = { mt = {}, _private = {} }
-local setmetatable = setmetatable
+local capi = { debugging = debugging }
+local NotificationsWindow = {}
 
-local Notifications = require "ui.popups.notifications.components.notifications"
-local GitHub = require "ui.popups.notifications.components.github"
-
-function notifications:get_widget()
-  return wibox.widget {
-    widget = wibox.container.background,
-    bg = beautiful.colors.background,
-    fg = beautiful.colors.foreground,
-    {
-      layout = wibox.layout.align.vertical,
-      nil,
-      Notifications():render(),
-      {
-        widget = wibox.container.margin,
-        margins = {
-          top = dpi(6),
-        },
-        GitHub():render(),
-      },
-    },
-  }
+function NotificationsWindow:handle_args(s)
+  self._private.s = s
 end
 
-local function make_window(self)
+function NotificationsWindow:make_window()
   local s = self._private.s
 
   if not s then
-    error "cannot fetch the screen from the notifications panel"
+    error("[notifications.window]: invalid screen value")
   end
 
   local WIDTH = dpi(340)
 
-  local positions = {
-    shown = {
-      x = s.geometry.x + (s.geometry.width - WIDTH - beautiful.useless_gap * 2),
-      y = s.geometry.y + s.panel.minimum_height + beautiful.useless_gap * 4,
-    },
-    hidden = {
-      x = s.geometry.x + s.geometry.width + beautiful.useless_gap * 2,
-      y = s.geometry.y + s.panel.minimum_height + beautiful.useless_gap * 4,
-    },
+  local PanelPositions = {
+    SHOWN = "Shown",
+    HIDDEN = "Hidden",
   }
+
+  local positions = {
+    [PanelPositions.SHOWN] = {
+      x = s.geometry.width - WIDTH,
+      y = s.geometry.y,
+    },
+    [PanelPositions.HIDDEN] = {
+      x = s.geometry.width,
+      y = s.geometry.y,
+    }
+  }
+
+  function positions:apply(panel, key)
+    panel.x = self[key].x
+    panel.y = self[key].y
+  end
 
   local panel = awful.popup {
-    type = "desktop",
-    x = positions.hidden.x,
-    y = positions.hidden.y,
-    ontop = true,
-    visible = false,
+    type = "dock",
     minimum_width = WIDTH,
-    minimum_height = s.geometry.height - s.panel.minimum_height - beautiful.useless_gap * 6,
-    widget = self:get_widget(),
+    minimum_height = s.geometry.height,
+    visible = false,
+    ontop = true,
+    widget = Content():render(),
   }
 
-  local PanelState = {
+  positions:apply(panel, PanelPositions.HIDDEN)
+
+  local PanelStates = {
     SHOWING = "Showing",
     HIDDING = "Hidding",
     IDLE = "Idle",
   }
 
-  -- not set
-  panel.state = PanelState.IDLE
+  panel.state = PanelStates.IDLE
+
+  panel.movement_animation = animation:new {
+    duration = 0.55,
+    easing = animation.easing.inOutExpo,
+    pos = positions[PanelPositions.HIDDEN],
+    update = function (_, pos)
+      panel.x = pos.x
+      panel.y = pos.y
+    end,
+    signals = {
+      ["ended"] = function ()
+        if panel.state == PanelStates.HIDDING then
+          panel.visible = false
+        end
+
+        -- indicate toggle() that the animation has ended
+        -- so it can change the panel state again if requested
+        panel.state = PanelStates.IDLE
+      end
+    }
+  }
+
+  function panel.movement_animation:switch_pos(pos_key)
+    self:set { target = positions[pos_key] }
+  end
+
+  function panel:hide()
+    self.state = PanelStates.HIDDING
+    self.movement_animation:switch_pos(PanelPositions.HIDDEN)
+  end
+
+  function panel:show()
+    self.visible = true
+    self.state = PanelStates.SHOWING
+    self.movement_animation:switch_pos(PanelPositions.SHOWN)
+  end
 
   function panel:toggle()
-    gtimer.delayed_call(function()
-      if self.visible and self.state == PanelState.IDLE then
+    gtimer.delayed_call(function ()
+      if self.visible and self.state == PanelStates.IDLE then
         self:hide()
-      elseif self.state == PanelState.IDLE then
+      elseif self.state == PanelStates.IDLE then
         self:show()
       end
     end)
   end
 
-  panel.animation = animation:new {
-    duration = 0.55,
-    easing = animation.easing.inOutExpo,
-    pos = positions.hidden,
-    update = function(_, pos)
-      if pos.x ~= nil then
-        panel.x = pos.x
-      end
-
-      if pos.y ~= nil then
-        panel.y = pos.y
-      end
-    end,
-    signals = {
-      ["ended"] = function()
-        if panel.state == PanelState.HIDDING then
-          panel.visible = false
-        end
-
-        -- reset panel state so toggle() can operate.
-        panel.state = PanelState.IDLE
-      end,
-    },
-  }
-
-  function panel:show()
-    self.visible = true
-    self.state = PanelState.SHOWING
-    self.animation:set(positions.shown)
-  end
-
-  function panel:hide()
-    self.state = PanelState.HIDDING
-    self.animation:set(positions.hidden)
-  end
-
-  self._private.panel = panel
+  self._private.panels[s] = panel
   s.notifications_panel = panel
 
   if capi.debugging.popups.notifications then
-    gtimer.delayed_call(function()
-      self._private.panel:toggle()
-    end)
+    print("calling toggle")
+    s.notifications_panel:toggle()
   end
 end
 
-local function new(s)
-  local ret = gobject {}
-  gtable.crush(ret, notifications, true)
-
-  ret._private.s = s
-
-  make_window(ret)
-
-  return ret
+function NotificationsWindow:constructor()
+  self._private.panels = {}
+  self:make_window()
 end
 
-function notifications.mt:__call(...)
-  return new(...)
-end
-
-return setmetatable(notifications, notifications.mt)
+return oop(NotificationsWindow)

@@ -1,5 +1,6 @@
 local wibox = require "wibox"
 local awful = require "awful"
+local gtimer = require "gears.timer"
 local animation = require "lib.animation"
 local color = require "lib.color"
 local general = require "lib.general"
@@ -70,7 +71,14 @@ function notifications_toggler:render()
   container:connect_signal("mouse::leave", binder("onhoverlost"))
 
   container:add_button(awful.button({}, 1, function ()
-    -- awful.screen.focused().notifications_sidebar:toggle()
+    local s = awful.screen.focused()
+    if not s.notifications_panel then
+      error("cannot get the notifification panel instance")
+    end
+
+    gtimer.delayed_call(function ()
+      s.notifications_panel:toggle()
+    end)
   end))
 
   return container

@@ -8,7 +8,6 @@ local gshape = require "gears.shape"
 local widget = require "ui.guards.widget"
 local GitHubService = require "services.github"
 local beautiful = require "beautiful"
-local tbl = require "lib.tbl"
 local dpi = beautiful.xresources.apply_dpi
 
 local github = {}
@@ -32,8 +31,7 @@ function github:make_widget()
     {
       widget = wibox.container.margin,
       margins = {
-        top = dpi(6),
-        bottom = dpi(16),
+        top = dpi(8),
       },
       self._private.content,
     },
@@ -91,7 +89,7 @@ end
 
 function github:make_notifs_layout()
   self._private.notifs_layout = wibox.layout.fixed.vertical()
-  self._private.notifs_layout.spacing = dpi(6)
+  self._private.notifs_layout.spacing = dpi(8)
 
   function self._private.notifs_layout:create(...)
     self:insert(1, ...)
