@@ -20,6 +20,7 @@ function M.generate_shades(base_palette)
     while i <= shades_count do
       ret["dark_" .. name .. "_" .. tostring(i)] = color.darken(hex, i * step)
       ret["light_" .. name .. "_" .. tostring(i)] = color.lighten(hex, i * step)
+
       i = i + 1
     end
 

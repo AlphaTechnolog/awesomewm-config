@@ -62,7 +62,7 @@ theme.colors = palette.generate_shades {
 
 -- accent color
 -- TODO: Add a popup to customize this color
-theme.colors.accent = theme.colors.green
+theme.colors.accent = theme.colors.blue
 
 theme.bg_normal = theme.colors.background
 theme.fg_normal = theme.colors.foreground
