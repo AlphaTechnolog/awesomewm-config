@@ -9,4 +9,5 @@
 - https://github.com/alphatechnolog/kogarashi-shell
 --]]
 
-require "ui.modules.notifications.init"()
+require("ui.modules.notifications")()
+require("ui.modules.titlebars")()
