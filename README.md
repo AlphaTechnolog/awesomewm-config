@@ -2,7 +2,7 @@
 
 A new incoming AwesomeWM which is being daily driven at a Gentoo installation.
 
-> Incoming to be merged at [dotfiles](https://github.com/AlphaTechnolog/dotfiles)
+> Intended for personal and daily usage, but should work as a codebase or even as a kickstart for a custom AwesomeWM configuration.
 
 > Note that it should also work on others distros if you install the packages for your distro
 
