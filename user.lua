@@ -38,6 +38,7 @@ bar_height = dpi(40)
 - ░▀▀░░▀▀▀░▀░▀░▀░▀░░▀░░▀▀▀░▀▀▀░▀░▀
 --]]
 
+enable_notification_sounds = true -- enable sounds for notifications
 want_optimisation = true -- enable garbagecollector optimisations
 
 --- autostart these commands when initialising AwesomeWM, e.g:

@@ -10,14 +10,17 @@
 --]]
 
 local wibox = require "wibox"
+local awful = require "awful"
 local naughty = require "naughty"
 local oop = require "lib.oop"
 local gtimer = require "gears.timer"
+local gfs = require "gears.filesystem"
 local beautiful = require "beautiful"
 local dpi = beautiful.xresources.apply_dpi
 
 local NotificationContent = require "ui.modules.notifications.content"
 
+local capi = { enable_notification_sounds = enable_notification_sounds }
 local Notifications = {}
 
 -- making notifications binding
@@ -37,7 +40,17 @@ function Notifications:subscribe(callback)
   end)
 end
 
+-- @requires: vorbis
+local function play_notif_sound()
+  local sound_path = gfs.get_configuration_dir() .. "assets/sounds/notification.ogg"
+  awful.spawn("ogg123 " .. sound_path)
+end
+
 function Notifications:make_notification(n)
+  if capi.enable_notification_sounds then
+    play_notif_sound()
+  end
+
   naughty.layout.box {
     notification = n,
     position = "top_middle",

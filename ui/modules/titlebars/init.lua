@@ -50,6 +50,10 @@ end
 
 return function ()
   capi.client.connect_signal("request::titlebars", function (c)
+    if c.requests_no_titlebar then
+      return
+    end
+
     local titlebar = awful.titlebar(c, {
       bg_normal = beautiful.colors.light_background_1,
       bg_focus = beautiful.colors.light_background_2,
