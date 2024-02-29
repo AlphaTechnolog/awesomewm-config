@@ -45,3 +45,45 @@ git clone https://github.com/alphatechnolog/awesomewm-config ~/.config/awesome \
 ```
 
 Then just restart AwesomeWM
+
+## Planned features ATM
+
+Some of the planned features at the moment are:
+
+- [x] Bar
+- [x] Wallpaper Manager
+  - [x] Colour wallpaper
+  - [x] Image wallpaper
+  - [x] Tiled wallpaper
+- [x] Base configuration
+  - [x] Keybindings
+  - [x] Client rules
+  - ...
+- [x] Titlebars (though it kinda needs to be improved)
+- [x] Notifications
+  - [x] Popup
+  - [x] Sound
+  - [ ] Panel
+    - [ ] Regular notifications
+    - [x] GitHub notifications (50% tho)
+- [ ] Powermenu
+- [ ] Settings/Dashboard main popup
+  - [x] Animations
+  - [x] Dialog
+  - [x] Tabs
+    - [x] Layout
+    - [x] Animations
+    - [x] Define links
+  - [ ] Home
+  - [ ] Tasks (Main layout is mostly done tho)
+    - [x] List tasks
+    - [ ] Edit tasks
+    - [ ] Update tasks
+    - [ ] Search tasks
+    - [ ] Create tasks
+  - [ ] Notes
+  - [x] Youtube Manager (checking possibility to ship at v1)
+    - [x] Coming soon splash
+  - [ ] About the system
+
+> Maybe there're more features but i did forget lmao
