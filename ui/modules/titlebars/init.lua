@@ -58,7 +58,7 @@ return function ()
       bg_normal = beautiful.colors.light_background_1,
       bg_focus = beautiful.colors.light_background_2,
       position = "top",
-      size = 35,
+      size = 32,
     })
 
     local close_button = create_button('red', function ()
