@@ -16,6 +16,35 @@ local NotificationToggler = require "ui.popups.panel.components.notifications_to
 local Clock = require "ui.popups.panel.components.clock"
 local Poweroff = require "ui.popups.panel.components.poweroff"
 
+local function get_widget(s)
+  return wibox.widget {
+    widget = wibox.container.background,
+    bg = beautiful.colors.background,
+    {
+      layout = wibox.layout.align.vertical,
+      {
+        widget = wibox.container.margin,
+        top = dpi(8),
+        {
+          layout = wibox.layout.fixed.vertical,
+          spacing = dpi(10),
+          Distro():render(),
+          Tagslist(s):render(),
+        },
+      },
+      nil,
+      {
+        layout = wibox.layout.fixed.vertical,
+        spacing = dpi(6),
+        SettingsToggler():render(),
+        NotificationToggler():render(),
+        Clock():render(),
+        Poweroff():render(),
+      },
+    }
+  }
+end
+
 local function make_window(self)
   local s = self._private.s
 
@@ -33,32 +62,7 @@ local function make_window(self)
     minimum_height = s.geometry.height,
     visible = false,
     ontop = false,
-    widget = wibox.widget {
-      widget = wibox.container.background,
-      bg = beautiful.colors.background,
-      {
-        layout = wibox.layout.align.vertical,
-        {
-          widget = wibox.container.margin,
-          top = dpi(8),
-          {
-            layout = wibox.layout.fixed.vertical,
-            spacing = dpi(10),
-            Distro():render(),
-            Tagslist(s):render(),
-          },
-        },
-        nil,
-        {
-          layout = wibox.layout.fixed.vertical,
-          spacing = dpi(6),
-          SettingsToggler():render(),
-          NotificationToggler():render(),
-          Clock():render(),
-          Poweroff():render(),
-        },
-      }
-    },
+    widget = get_widget(s)
   }
 
   panel:struts {

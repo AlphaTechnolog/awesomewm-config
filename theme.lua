@@ -46,21 +46,21 @@ theme.font = theme.fonts:choose("normal", 9)
 
 theme.colors = palette.generate_shades {
   transparent = "#00000000",
-  background = "#141617",
-  foreground = "#d8d8d8",
-  black = "#2f2f2f",
-  red = "#F38BA8",
-  green = "#A6E3A1",
-  yellow = "#F9E2AF",
-  blue = "#89B4FA",
-  magenta = "#F5C2E7",
-  cyan = "#94E2D5",
-  white = "#BAC2DE",
+  background = "#171521",
+  foreground = "#e0def4",
+  black = "#26233a",
+  red = "#eb6f92",
+  green = "#31748f",
+  yellow = "#f6c177",
+  blue = "#9ccfd8",
+  magenta = "#c4a7e7",
+  cyan = "#ebbcba",
+  white = "#e0def4",
 }
 
 -- accent color
 -- TODO: Add a popup to customize this color
-theme.colors.accent = theme.colors.cyan
+theme.colors.accent = theme.colors.blue
 
 theme.bg_normal = theme.colors.background
 theme.fg_normal = theme.colors.foreground

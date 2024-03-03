@@ -56,7 +56,7 @@ return function ()
 
     local titlebar = awful.titlebar(c, {
       bg_normal = beautiful.colors.light_background_1,
-      bg_focus = beautiful.colors.light_background_2,
+      bg_focus = beautiful.colors.background,
       position = "top",
       size = 32,
     })
