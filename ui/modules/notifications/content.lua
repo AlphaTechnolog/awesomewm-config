@@ -30,7 +30,7 @@ function NotificationContent:render()
     layout = wibox.layout.fixed.vertical,
     {
       widget = wibox.container.background,
-      bg = beautiful.colors.light_background_3,
+      bg = beautiful.colors.background_shade,
       {
         widget = wibox.container.margin,
         margins = {
@@ -60,7 +60,7 @@ function NotificationContent:render()
     },
     {
       widget = wibox.container.background,
-      bg = beautiful.colors.light_background_1,
+      bg = beautiful.colors.background,
       {
         widget = wibox.container.margin,
         margins = {
@@ -99,7 +99,7 @@ function NotificationContent:render()
                 valign = "center",
                 align = "left",
                 markup = notif.title and general:tint_markup(
-                  beautiful.colors.light_background_10,
+                  beautiful.colors.light_black_15,
                   notif.text
                 ) or "<b>" .. notif.text .. "</b>",
               }

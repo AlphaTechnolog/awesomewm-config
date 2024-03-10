@@ -41,19 +41,21 @@ end
 -- yes, i like using () everywhere ok ( even when not needed :> ).
 function _core:constructor()
   local s = self._private.s
+
   local SCALE_FACTOR = 1.5
+  local x_offset = 42
 
   -- basic +, -, * and / for getting the right dimensions and positions
   -- maybe can be simplified af but im that lazy, also it already works lmao
   self._private.dimensions = {
-    width = math.floor(dpi((s.geometry.width / 2) - s.panel.minimum_width - (beautiful.useless_gap * 2)) * SCALE_FACTOR),
+    width = math.floor(dpi((s.geometry.width / 2) - (beautiful.useless_gap * 2)) * SCALE_FACTOR + x_offset),
     height = math.floor((s.geometry.height / 2) * SCALE_FACTOR + beautiful.useless_gap * 4) + 100,
   }
 
   self._private.positions = {
     [Positions.SHOWN] = {
       x = s.geometry.x + ((s.geometry.width - self._private.dimensions.width) / 2),
-      y = s.geometry.y + ((s.geometry.height - self._private.dimensions.height) / 2),
+      y = s.geometry.y + (((s.geometry.height + s.panel.minimum_height) - self._private.dimensions.height) / 2),
     },
     [Positions.HIDDEN] = {
       x = s.geometry.x + ((s.geometry.width - self._private.dimensions.width) / 2),

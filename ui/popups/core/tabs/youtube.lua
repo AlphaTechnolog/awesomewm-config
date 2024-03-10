@@ -43,7 +43,7 @@ function youtube:render()
         {
           widget = wibox.widget.textbox,
           font = beautiful.fonts:choose("normal", 14),
-          markup = general:tint_markup(beautiful.colors.light_background_15, "Coming soon..."),
+          markup = general:tint_markup(beautiful.colors.light_black_4, "<b>Coming soon...</b>"),
           valign = "center",
           align = "center"
         },

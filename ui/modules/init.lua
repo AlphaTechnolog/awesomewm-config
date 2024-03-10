@@ -8,4 +8,4 @@
 --]]
 
 require("ui.modules.notifications")()
-require("ui.modules.titlebars")()
+-- require("ui.modules.titlebars")()

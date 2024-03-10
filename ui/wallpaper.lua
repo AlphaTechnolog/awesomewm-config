@@ -9,8 +9,9 @@
 
 local awful = require "awful"
 local wibox = require "wibox"
-local lgeneral = require "lib.general"
+local general = require "lib.general"
 local beautiful = require "beautiful"
+local dpi = beautiful.xresources.apply_dpi
 
 local capi = { screen = screen }
 
@@ -37,12 +38,23 @@ capi.screen.connect_signal("request::wallpaper", function(s)
           resize = false,
         },
       } or {
-        widget = wibox.widget.imagebox,
-        image = wallpaper_config.path,
-        valign = "center",
-        halign = "center",
-        horizontal_fit_policy = "fit",
-        vertical_fit_policy = "fit",
+        widget = wibox.container.background,
+        bg = beautiful.colors.background,
+        {
+          widget = wibox.container.margin,
+          margins = {
+            top = s.panel.minimum_height,
+          },
+          {
+            widget = wibox.widget.imagebox,
+            clip_shape = general:srounded(dpi(12)),
+            image = wallpaper_config.path,
+            valign = "center",
+            halign = "center",
+            horizontal_fit_policy = "fit",
+            vertical_fit_policy = "fit",
+          }
+        }
       },
     },
   }

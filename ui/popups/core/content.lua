@@ -83,7 +83,7 @@ end
 function content:make_list_entry(tab)
   local btn = wibox.widget {
     widget = wibox.container.background,
-    bg = beautiful.colors.light_background_2,
+    bg = beautiful.colors.background_shade,
     shape = general:srounded(dpi(7)),
     {
       widget = wibox.container.margin,
@@ -132,22 +132,22 @@ function content:make_list_entry(tab)
     if selected_tab.metadata._id == tab.metadata._id then
       btn.selected = true
       btn.animation:set {
-        target = color.hex_to_rgba(beautiful.colors.light_background_8)
+        target = color.hex_to_rgba(beautiful.colors.light_background_shade_4)
       }
     else
       btn.selected = false
       btn.animation:set {
-        target = color.hex_to_rgba(beautiful.colors.light_background_2)
+        target = color.hex_to_rgba(beautiful.colors.background_shade)
       }
     end
   end)
 
   btn:connect_signal("mouse::enter", function (self)
-    self:set_color(beautiful.colors.light_background_8)
+    self:set_color(beautiful.colors.light_background_shade_6)
   end)
 
   btn:connect_signal("mouse::leave", function (self)
-    self:set_color(beautiful.colors.light_background_2)
+    self:set_color(beautiful.colors.background_shade)
   end)
 
   local tmpself = self
@@ -250,7 +250,7 @@ function content:make_widget()
     layout = wibox.layout.align.horizontal,
     {
       widget = wibox.container.background,
-      bg = beautiful.colors.light_background_2,
+      bg = beautiful.colors.background_shade,
       {
         layout = wibox.layout.align.vertical,
         {

@@ -9,47 +9,40 @@ local dpi = beautiful.xresources.apply_dpi
 local BarWindow = { mt = {}, _private = {} }
 local setmetatable = setmetatable
 
-local Actions = require("ui.popups.panel.components.actions")
-local Tagslist = require("ui.popups.panel.components.tagslist")
-local Clock = require("ui.popups.panel.components.clock")
-
-local function contained(w)
-  return wibox.widget {
-    widget = wibox.container.margin,
-    left = dpi(12),
-    right = dpi(12),
-    top = dpi(4),
-    bottom = dpi(4),
-    w
-  }
-end
+local Distro = require "ui.popups.panel.components.distro"
+local Tagslist = require "ui.popups.panel.components.tagslist"
+local SettingsToggler = require "ui.popups.panel.components.settings_toggler"
+local NotificationToggler = require "ui.popups.panel.components.notifications_toggler"
+local Clock = require "ui.popups.panel.components.clock"
+local Poweroff = require "ui.popups.panel.components.poweroff"
 
 local function get_widget(s)
-  return contained(wibox.widget {
+  return wibox.widget {
     widget = wibox.container.background,
     bg = beautiful.colors.background,
-    fg = beautiful.colors.foreground,
     {
-      layout = wibox.layout.stack,
+      layout = wibox.layout.align.vertical,
       {
-        layout = wibox.layout.align.horizontal,
-        nil,
-        nil,
+        widget = wibox.container.margin,
+        top = dpi(8),
         {
-          layout = wibox.layout.fixed.horizontal,
-          spacing = dpi(12),
-          Actions():render(),
-          Clock():render(),
-        }
+          layout = wibox.layout.fixed.vertical,
+          spacing = dpi(10),
+          Distro():render(),
+          Tagslist(s):render(),
+        },
       },
+      nil,
       {
-        widget = wibox.container.place,
-        valign = "center",
-        halign = "center",
-        Tagslist(s):render()
-      }
+        layout = wibox.layout.fixed.vertical,
+        spacing = dpi(6),
+        SettingsToggler():render(),
+        NotificationToggler():render(),
+        Clock():render(),
+        Poweroff():render(),
+      },
     }
-  })
+  }
 end
 
 local function make_window(self)
@@ -59,23 +52,21 @@ local function make_window(self)
     error "cannot fetch the screen from the panel window"
   end
 
-  local HEIGHT = dpi(30)
+  local WIDTH = dpi(40)
 
   local panel = awful.popup {
     type = "dock",
     x = s.geometry.x,
     y = s.geometry.y,
-    minimum_height = HEIGHT,
-    maximum_height = HEIGHT,
-    minimum_width = s.geometry.width,
-    maximum_width = s.geometry.width,
+    minimum_width = WIDTH,
+    minimum_height = s.geometry.height,
     visible = false,
     ontop = false,
     widget = get_widget(s)
   }
 
   panel:struts {
-    top = HEIGHT,
+    left = WIDTH,
   }
 
   function panel:toggle()

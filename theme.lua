@@ -16,6 +16,7 @@
 local xresources = require "beautiful.xresources"
 local gfs = require "gears.filesystem"
 local palette = require "lib.palette"
+local color = require "lib.color"
 local dpi = xresources.apply_dpi
 
 local themes_path = gfs.get_themes_dir()
@@ -46,21 +47,22 @@ theme.font = theme.fonts:choose("normal", 9)
 
 theme.colors = palette.generate_shades {
   transparent = "#00000000",
-  background = "#171521",
-  foreground = "#e0def4",
-  black = "#26233a",
-  red = "#eb6f92",
-  green = "#31748f",
-  yellow = "#f6c177",
-  blue = "#9ccfd8",
-  magenta = "#c4a7e7",
-  cyan = "#ebbcba",
-  white = "#e0def4",
+  background = "#161617",
+  background_shade = color.lighten("#161617", 5),
+  foreground = "#c9c7cd",
+  black = "#353539",
+  red = "#ea83a5",
+  green = "#90b99f",
+  yellow = "#e6b99d",
+  blue = "#aca1cf",
+  magenta = "#e29eca",
+  cyan = "#f5a191",
+  white = "#c1c0d4",
 }
 
 -- accent color
 -- TODO: Add a popup to customize this color
-theme.colors.accent = theme.colors.blue
+theme.colors.accent = theme.colors.green
 
 theme.bg_normal = theme.colors.background
 theme.fg_normal = theme.colors.foreground
