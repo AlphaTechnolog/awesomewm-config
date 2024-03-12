@@ -116,7 +116,7 @@ function _core:make_bindings()
     error("[internal] `Core::make_bindings()`: have you called `Core::make_window()` first?")
   end
 
-  local appropiatelly = function (self, callback)
+  local safe_do = function (self, callback)
     gtimer.delayed_call(function ()
       if self[callback] ~= nil then
         self[callback](self)
@@ -130,9 +130,9 @@ function _core:make_bindings()
     end
 
     if self.visible then
-      appropiatelly(self, "hide")
+      safe_do(self, "hide")
     else
-      appropiatelly(self, "show")
+      safe_do(self, "show")
     end
   end
 
