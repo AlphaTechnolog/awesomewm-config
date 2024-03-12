@@ -46,16 +46,16 @@ theme.font = theme.fonts:choose("normal", 9)
 
 theme.colors = palette.generate_shades {
   transparent = "#00000000",
-  background = "#171521",
-  foreground = "#e0def4",
-  black = "#26233a",
-  red = "#eb6f92",
-  green = "#31748f",
-  yellow = "#f6c177",
-  blue = "#9ccfd8",
-  magenta = "#c4a7e7",
-  cyan = "#ebbcba",
-  white = "#e0def4",
+  background = "#15191c",
+  foreground = "#C7CCD1",
+  black = "#4f575e",
+  red = "#C79595",
+  green = "#AEC795",
+  yellow = "#C7C795",
+  blue = "#95AEC7",
+  magenta = "#AE95C7",
+  cyan = "#95C7AE",
+  white = "#DFE2E5",
 }
 
 -- accent color

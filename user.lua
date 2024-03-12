@@ -20,8 +20,7 @@ local dpi = beautiful.xresources.apply_dpi
 - ░▀▀▀░▀▀▀░▀▀▀░▀░▀░░░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀
 --]]
 
-terminal = "bash -c 'WINIT_X11_SCALE_FACTOR=1.0 alacritty'"
--- terminal = "warp-terminal"
+terminal = "st"
 launcher = "rofi -show drun"
 editor = os.getenv "EDITOR" or "nvim"
 editor_cmd = terminal .. " -e " .. editor
@@ -80,16 +79,16 @@ services = {
 --- }
 
 --- sample wallpaper configuration for stretched image wallpaper
-wallpaper_config = {
-  mode = "image",
-  path = gfs.get_configuration_dir() .. "assets/wallpaper.png",
-}
+-- wallpaper_config = {
+--   mode = "image",
+--   path = gfs.get_configuration_dir() .. "assets/wallpaper.png",
+-- }
 
 --- sample wallpaper configuration for solid color wallpaper
--- wallpaper_config = {
---   mode = "color",
---   color = beautiful.colors.light_background_7
--- }
+wallpaper_config = {
+  mode = "color",
+  color = beautiful.colors.light_background_8
+}
 
 --[[
 - ░█▀▄░█▀▀░█▀▄░█░█░█▀▀
