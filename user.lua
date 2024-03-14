@@ -79,16 +79,16 @@ services = {
 --- }
 
 --- sample wallpaper configuration for stretched image wallpaper
--- wallpaper_config = {
---   mode = "image",
---   path = gfs.get_configuration_dir() .. "assets/wallpaper.png",
--- }
+wallpaper_config = {
+  mode = "image",
+  path = gfs.get_configuration_dir() .. "assets/wallpaper.png",
+}
 
 --- sample wallpaper configuration for solid color wallpaper
-wallpaper_config = {
-  mode = "color",
-  color = beautiful.colors.light_background_8
-}
+-- wallpaper_config = {
+--   mode = "color",
+--   color = beautiful.colors.light_background_8
+-- }
 
 --[[
 - ░█▀▄░█▀▀░█▀▄░█░█░█▀▀
