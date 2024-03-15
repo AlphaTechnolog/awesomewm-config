@@ -1,5 +1,7 @@
 local wibox = require "wibox"
 local awful = require "awful"
+local ascreen = require "awful.screen"
+local gtimer = require "gears.timer"
 local animation = require "lib.animation"
 local color = require "lib.color"
 local general = require "lib.general"
@@ -70,7 +72,14 @@ function settings_toggler:render()
   container:connect_signal("mouse::leave", binder("onhoverlost"))
 
   container:add_button(awful.button({}, 1, function ()
-    require("naughty").notify({ title = "hello, world" })
+    local window = ascreen.focused().core_window
+    if not window then
+      error("cannot grab the core window")
+    end
+
+    gtimer.delayed_call(function ()
+      window:toggle()
+    end)
   end))
 
   return container

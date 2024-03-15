@@ -9,6 +9,17 @@ local assets = gfs.get_configuration_dir() .. "/assets/"
 
 local distro = {}
 
+function distro:handle_args(args)
+  if not args then
+    args = {
+      height = 20,
+      width = 20
+    }
+  end
+
+  self._private.args = args
+end
+
 function distro:constructor()
   self._private.image = assets .. "/distro.svg"
 end
@@ -18,8 +29,8 @@ function distro:render()
     widget = wibox.widget.imagebox,
     valign = 'center',
     halign = 'center',
-    forced_width = dpi(20),
-    forced_height = dpi(20),
+    forced_width = dpi(self._private.args.width),
+    forced_height = dpi(self._private.args.height),
     clip_shape = general:srounded(dpi(4)),
     image = self._private.image
   }

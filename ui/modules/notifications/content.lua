@@ -99,7 +99,7 @@ function NotificationContent:render()
                 valign = "center",
                 align = "left",
                 markup = notif.title and general:tint_markup(
-                  beautiful.colors.light_background_10,
+                  beautiful.colors.light_black_7,
                   notif.text
                 ) or "<b>" .. notif.text .. "</b>",
               }
