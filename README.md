@@ -10,7 +10,7 @@ A new incoming AwesomeWM which is being daily driven at a Gentoo installation.
 
 ![preview](./.github/assets/preview.png)
 
-> Last preview was updated at 29/02/24, note that it may be outdated...
+> Last preview was updated at 18/03/24, note that it may be outdated...
 
 ## Requirements
 
