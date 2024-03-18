@@ -46,7 +46,7 @@ theme.font = theme.fonts:choose("normal", 9)
 
 theme.colors = palette.generate_shades {
   transparent = "#00000000",
-  background = "#15191c",
+  background = "#141617",
   foreground = "#C7CCD1",
   black = "#4f575e",
   red = "#C79595",
