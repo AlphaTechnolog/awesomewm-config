@@ -20,7 +20,7 @@ local dpi = beautiful.xresources.apply_dpi
 - ░▀▀▀░▀▀▀░▀▀▀░▀░▀░░░░░▀▀▀░▀▀▀░▀░▀░▀▀▀░▀▀▀
 --]]
 
-terminal = "st"
+terminal = "bash -c 'WINIT_X11_SCALE_FACTOR=1.0 alacritty'"
 launcher = "rofi -show drun"
 editor = os.getenv "EDITOR" or "nvim"
 editor_cmd = terminal .. " -e " .. editor
