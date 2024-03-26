@@ -14,8 +14,8 @@ local function create_button(color_key, callback)
     widget = wibox.container.background,
     bg = beautiful.colors[color_key],
     shape = gshape.circle,
-    forced_width = dpi(11),
-    forced_height = dpi(11),
+    forced_width = dpi(13),
+    forced_height = dpi(13),
   })
 
   button.animation = animation:new {
@@ -80,13 +80,13 @@ return function ()
       {
         widget = wibox.container.margin,
         margins = {
-          left = dpi(13),
-          top = dpi(4),
-          bottom = dpi(4),
+          left = dpi(15),
+          top = dpi(3),
+          bottom = dpi(3),
         },
         {
           layout = wibox.layout.fixed.horizontal,
-          spacing = dpi(5),
+          spacing = dpi(6),
           close_button,
           maximize_button,
           minimize_button,
