@@ -42,8 +42,6 @@ end
 function _core:constructor()
   local s = self._private.s
 
-  -- basic +, -, * and / for getting the right dimensions and positions
-  -- maybe can be simplified af but im that lazy, also it already works lmao
   self._private.dimensions = {
     width = 870,
     height = 680,

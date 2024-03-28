@@ -9,7 +9,7 @@ local dpi = beautiful.xresources.apply_dpi
 
 local capi = { client = client }
 
-local function create_button(color_key, callback)
+local function create_button(c, color_key, callback)
   local button = wibox.widget({
     widget = wibox.container.background,
     bg = beautiful.colors[color_key],
@@ -20,23 +20,40 @@ local function create_button(color_key, callback)
 
   button.animation = animation:new {
     duration = 0.25,
-    easing = animation.easing.linear,
+    easing = animation.easing.inOutCubic,
     pos = color.hex_to_rgba(beautiful.colors[color_key]),
     update = function (_, pos)
       button.bg = color.rgba_to_hex(pos)
     end
   }
 
+  function button:update_state()
+    local color = self.has_focus
+      and beautiful.colors[color_key]
+      or beautiful.colors.light_black_5
+
+    self.animation:switch_color(color)
+  end
+  
+  function button:update_has_focus()
+    self.has_focus = client.focus == c
+    self:update_state()
+  end
+
   function button.animation:switch_color(new_color)
     self:set { target = color.hex_to_rgba(new_color) }
   end
 
-  button:connect_signal("mouse::enter", function ()
-    button.animation:switch_color(beautiful.colors["light_" .. color_key .. "_15"])
+  button:connect_signal("mouse::enter", function (self)
+    if self.has_focus then
+      self.animation:switch_color(beautiful.colors["light_" .. color_key .. "_15"])
+    end
   end)
 
-  button:connect_signal("mouse::leave", function ()
-    button.animation:switch_color(beautiful.colors[color_key])
+  button:connect_signal("mouse::leave", function (self)
+    if self.has_focus then
+      button.animation:switch_color(beautiful.colors[color_key])
+    end
   end)
 
   button:add_button(awful.button({}, 1, function ()
@@ -44,6 +61,14 @@ local function create_button(color_key, callback)
       callback()
     end
   end))
+
+  gtimer.delayed_call(function ()
+    button:update_has_focus()
+    client.connect_signal("focus", function ()
+      print("updating")
+      button:update_has_focus()
+    end)
+  end)
 
   return button
 end
@@ -55,21 +80,20 @@ return function ()
     end
 
     local titlebar = awful.titlebar(c, {
-      bg_normal = beautiful.colors.light_background_1,
-      bg_focus = beautiful.colors.background,
+      bg = beautiful.colors.background,
       position = "top",
       size = 32,
     })
 
-    local close_button = create_button('red', function ()
+    local close_button = create_button(c, 'red', function ()
       c:kill()
     end)
 
-    local maximize_button = create_button('yellow', function ()
+    local maximize_button = create_button(c, 'yellow', function ()
       c.maximized = not c.maximized
     end)
 
-    local minimize_button = create_button('green', function ()
+    local minimize_button = create_button(c, 'green', function ()
       gtimer.delayed_call(function ()
         c.minimized = not c.minimized
       end)
@@ -90,6 +114,17 @@ return function ()
           close_button,
           maximize_button,
           minimize_button,
+        }
+      },
+      {
+        widget = wibox.container.background,
+        buttons = {
+          awful.button({}, 1, function ()
+            c:activate { context = "titlebar", action = "mouse_move" }
+          end),
+          awful.button({}, 3, function ()
+            c:activate { context = "titlebar", action = "mouse_resize" }
+          end)
         }
       }
     })
